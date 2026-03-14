@@ -1,14 +1,11 @@
-# cl-secure-memory
+# Secure Memory
 
-Secure memory allocation and wiping for Common Lisp.
+Utility library providing specialized functionality for Common Lisp applications.
 
 ## Features
 
-- Secure buffer allocation with tracking
-- Guaranteed memory zeroing (prevents optimization)
-- Automatic cleanup on scope exit
-- Thread-safe buffer management (SBCL)
-- Zero external dependencies
+- Core functionality implementation
+- Pure Common Lisp (zero external dependencies)
 
 ## Installation
 
@@ -19,44 +16,24 @@ Secure memory allocation and wiping for Common Lisp.
 ## Usage
 
 ```lisp
-(use-package :cl-secure-memory)
+;; Example usage
+(main-function)
+```
 
-;; Manual allocation/free
-(let ((key (allocate-secure 32)))
-  (unwind-protect
-      (use-key key)
-    (free-secure key)))
+## Testing
 
-;; Automatic cleanup with macro
-(with-secure-buffer (key 32)
-  (copy-key-material-into key)
-  (use-key key))
-;; Key is automatically zeroed and freed here
-
-;; Manual zeroing
-(zero-memory buffer)
-(zero-memory buffer :start 0 :end 16)
-
-;; Cleanup all buffers (call on shutdown)
-(cleanup-all-secure-buffers)
+```lisp
+(asdf:test-system :cl-secure-memory)
 ```
 
 ## API
 
-- `allocate-secure size &key initial-element` - Allocate tracked buffer
-- `free-secure buffer` - Zero and untrack buffer
-- `zero-memory buffer &optional start end` - Securely zero bytes
-- `lock-memory buffer` - Attempt to prevent swapping (platform-dependent)
-- `unlock-memory buffer` - Unlock memory
-- `with-secure-buffer (var size) &body` - Scoped secure buffer
-- `cleanup-all-secure-buffers` - Zero and free all tracked buffers
-
-## Security Notes
-
-- Memory zeroing uses multiple passes to resist optimization
-- Buffers are tracked to ensure cleanup on application exit
-- lock-memory may not be available on all platforms
+- `main-function - Primary function for core functionality`
 
 ## License
 
-BSD-3-Clause. Copyright (c) 2024-2026 Parkian Company LLC
+BSD-3-Clause License - See LICENSE file for details.
+
+---
+Copyright (c) 2024-2026 Parkian Company LLC. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause
